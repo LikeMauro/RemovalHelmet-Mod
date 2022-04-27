@@ -1,9 +1,12 @@
 ﻿using OWML.Common;
 using OWML.ModHelper;
+using OWML.Utils;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
-namespace ModTemplate
+namespace RemovalHelmetMod
 {
-    public class ModTemplate : ModBehaviour
+    public class RemovalHelmetMod : ModBehaviour
     {
         private void Awake()
         {
@@ -14,17 +17,20 @@ namespace ModTemplate
 
         private void Start()
         {
-            // Starting here, you'll have access to OWML's mod helper.
-            ModHelper.Console.WriteLine($"My mod {nameof(ModTemplate)} is loaded!", MessageType.Success);
+            ModHelper.Console.WriteLine($"Removal Helmet Mod loaded!!");
 
-            // Example of accessing game code.
-            LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
+        }
+
+        private void Update()
+        {
+           if (Keyboard.current.hKey.wasPressedThisFrame)
             {
-                if (loadScene != OWScene.SolarSystem) return;
-                var playerBody = FindObjectOfType<PlayerBody>();
-                ModHelper.Console.WriteLine($"Found player body, and it's called {playerBody.name}!",
-                    MessageType.Success);
-            };
+                Locator.GetPlayerSuit().RemoveHelmet();
+            }
+           if (Keyboard.current.jKey.wasPressedThisFrame)
+            {
+                Locator.GetPlayerSuit().PutOnHelmet();
+            }
         }
     }
 }
